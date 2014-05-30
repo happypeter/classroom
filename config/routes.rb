@@ -1,4 +1,10 @@
 Classroom::Application.routes.draw do
+  get "users/login"
+
+  get "users/classroom"
+
+  root to: "users#login"
+  get "classroom" => "users#classroom"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
