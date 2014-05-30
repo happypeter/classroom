@@ -9,6 +9,6 @@
 
 
 <script>
-    var socket = io.connect("http://0.0.0.0:5001");
+    var socket = io.connect("http://classroom.happycasts.net:5001");
     socket.emit('joiner-name', $.trim($('.username')[0].innerHTML));
 </script>
