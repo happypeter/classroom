@@ -1,13 +1,12 @@
 <h1>Classroom</h1>
 <div class="username">
-	<%= current_user.name %>
+ <% if @username %>
+   <%= @username %>
+ <% else %>
+    <%= link_to "login first", "/" %>
+ <% end %>
 </div>
 
-this is redis saved: <%= @saved %>
-<ul id="messages"></ul>
-<form action="">
-  <input id="m" autocomplete="off" /><button>Send</button>
-</form>
 
 <script>
     var socket = io.connect("http://0.0.0.0:5001");

@@ -1,7 +1,6 @@
 Classroom::Application.routes.draw do
-  post "/create_login_session" => "users#create_login_session"
   root to: "users#login"
-  get "classroom" => "users#classroom"
+  get "/classroom" => "users#classroom"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

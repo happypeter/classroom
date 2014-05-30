@@ -1,9 +1,5 @@
-<ul>
-<% @users.each do |u| %>
-  <li><%= u.name %></li>
-<% end %>
 </ul>
-<%= form_tag "/create_login_session" do %>
+<%= form_tag "/classroom", :method => "get" do %>
         <dl class="form">
           <dt><%= label_tag "name" %></dt>
           <dd><%= text_field_tag :name, params[:name] %></dd>
