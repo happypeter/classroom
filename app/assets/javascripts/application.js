@@ -14,5 +14,4 @@
 //= require jquery_ujs
 //
 //= require socket.io
-//= require realtime
 //= require_tree .
