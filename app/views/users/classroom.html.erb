@@ -7,9 +7,5 @@
 </form>
 
 <script>
-    var socket = io.connect("http://0.0.0.0:5001");
-
-    socket.on("rt-change", function(message){
-        alert(message);
-    });
+    io.connect("http://0.0.0.0:5001");
 </script>
