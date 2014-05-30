@@ -13,6 +13,11 @@
 <div class="online-user">
 
 </div>
+<div class="online-user-number">
+
+</div>
+
+
 
 <script>
     var socket = io.connect("http://classroom.happycasts.net:5001");
@@ -22,6 +27,9 @@
     // Whenever the server emits 'user joined', log it in the chat body
     socket.on('user joined', function (data) {
       $('.online-user').append(data.username);
+      $('.online-user-number').text(data.numUsers + " members");
     });
-
+    socket.on('user left', function(data){
+      $('.online-user-number').text(data.numUsers + " members");
+    });
 </script>
