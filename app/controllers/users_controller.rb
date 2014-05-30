@@ -6,8 +6,7 @@ class UsersController < ApplicationController
 
   def classroom
     @user = current_user
-    msg = { name: @user.id}
-    $redis.publish 'rt-change', msg.to_json
+    @saved = $redis.get('username')
   end
 
   def create_login_session
