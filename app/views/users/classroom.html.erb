@@ -1,5 +1,7 @@
 <h1>Classroom</h1>
-<%= current_user.name %>
+<div class="username">
+	<%= current_user.name %>
+</div>
 
 <ul id="messages"></ul>
 <form action="">
@@ -8,5 +10,5 @@
 
 <script>
     var socket = io.connect("http://0.0.0.0:5001");
-    socket.emit('joiner-name', "peterbillie");
+    socket.emit('joiner-name', $.trim($('.username')[0].innerHTML));
 </script>
