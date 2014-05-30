@@ -1,3 +1,8 @@
+<ul>
+<% @users.each do |u| %>
+  <li><%= u.name %></li>
+<% end %>
+</ul>
 <%= form_tag "/create_login_session" do %>
         <dl class="form">
           <dt><%= label_tag "name" %></dt>
