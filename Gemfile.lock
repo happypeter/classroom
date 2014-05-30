@@ -78,6 +78,7 @@ GEM
     rake (10.3.2)
     rdoc (3.12.2)
       json (~> 1.4)
+    redis (3.0.2)
     sass (3.3.7)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -106,5 +107,6 @@ DEPENDENCIES
   jquery-rails
   mysql2
   rails (= 3.2.13)
+  redis
   sass-rails (~> 3.2.3)
   uglifier (>= 1.0.3)
