@@ -8,6 +8,7 @@ io.on('connection', function(socket){
   console.log('......a user connected');
   redis.on('message', function(channel, message){
       socket.emit('rt-change', JSON.parse(message));
+      console.log('message...................:' );
     });
 });
 

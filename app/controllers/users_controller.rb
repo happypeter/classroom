@@ -5,7 +5,8 @@ class UsersController < ApplicationController
   end
 
   def classroom
-    msg = { name: 'peter'}
+    @user = current_user
+    msg = { name: @user.id}
     $redis.publish 'rt-change', msg.to_json
   end
 
