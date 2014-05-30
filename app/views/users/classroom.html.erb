@@ -8,7 +8,5 @@
 
 <script>
     var socket = io.connect("http://0.0.0.0:5001");
-    socket.on("rt-change", function(message){
-        alert("redis send this...");
-     });
+    socket.emit('joiner-name', "peterbillie");
 </script>
