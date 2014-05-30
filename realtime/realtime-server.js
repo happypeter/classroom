@@ -16,7 +16,7 @@ io.on('connection', function(socket){
    socket.on('add user', function (username) {
 		console.log("+++on add user+++++++++++");
     socket.broadcast.emit('user joined', {
-      username: "fakename",
+      username: username,
       numUsers: "3"
     });
    });
