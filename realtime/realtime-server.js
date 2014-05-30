@@ -11,6 +11,18 @@ io.on('connection', function(socket){
 		console.log(reply +"++++++++++++++");
 	})
   });
+
+
+   socket.on('add user', function (username) {
+		console.log("+++on add user+++++++++++");
+    socket.broadcast.emit('user joined', {
+      username: "fakename",
+      numUsers: "3"
+    });
+   });
+
+
+
 });
 
 
