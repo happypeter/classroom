@@ -1,7 +1,8 @@
 <h1>Classroom</h1>
+<h3> You are </h3>
 <div class="username">
  <% if @username %>
-   <%= @username %> is you
+   <%= @username %>
  <% else %>
     <%= link_to "login first", "/" %>
  <% end %>
@@ -16,7 +17,7 @@
 <script>
     var socket = io.connect("http://classroom.happycasts.net:5001");
     socket.emit('joiner-name', $.trim($('.username')[0].innerHTML));
-    socket.emit('add user', "fixed-name");
+    socket.emit('add user', $.trim($('.username')[0].innerHTML));
     // Whenever the server emits 'user joined', log it in the chat body
     socket.on('user joined', function (data) {
       alert(data.username + ' joined');
