@@ -28,7 +28,7 @@ io.on('connection', function(socket){
     usernames[username] = username;
     ++numUsers;
 
-    socket.broadcast.emit('user joined', {
+    io.sockets.emit('user joined', {
       username: socket.username,
       numUsers: numUsers
     });
