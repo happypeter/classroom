@@ -20,7 +20,7 @@
 
 
 <script>
-    var socket = io.connect("http://classroom.happycasts.net:5001");
+    var socket = io.connect("<%= Settings.socket_url %>");
     var username = $.trim($('.username')[0].innerHTML);
     socket.emit('joiner-name', $.trim($('.username')[0].innerHTML));
     socket.emit('add user', username);

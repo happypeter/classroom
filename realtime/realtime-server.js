@@ -11,7 +11,6 @@ io.on('connection', function(socket){
   var addedUser = false;
 
 
-  console.log('......a user connected.................');
   socket.on('joiner-name', function(message) {
     console.log(message)
     redis.set("username", message);
