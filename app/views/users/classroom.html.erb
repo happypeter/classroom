@@ -13,10 +13,8 @@
 <div class="online-user">
 
 </div>
-<div class="online-user-number">
-
+<div class="online-user-list">
 </div>
-
 
 
 <script>
@@ -25,11 +23,15 @@
     socket.emit('joiner-name', $.trim($('.username')[0].innerHTML));
     socket.emit('add user', username);
     // Whenever the server emits 'user joined', log it in the chat body
+    var updateUserList = function(data) {
+      var arr = $.map(data.usernames, function(value, key){ return value;});
+      $('.online-user-list').text(data.numUsers + " members: " + arr.join(', '));
+    };
     socket.on('user joined', function (data) {
-      $('.online-user-number').text(data.numUsers + " members" + JSON.stringify(data.usernames));
+      updateUserList(data);
     });
 
     socket.on('user left', function(data){
-      $('.online-user-number').text(data.numUsers + " members");
+      updateUserList(data);
     });
 </script>

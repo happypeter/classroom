@@ -44,7 +44,8 @@ io.on('connection', function(socket){
      // echo globally that this client has left
      socket.broadcast.emit('user left', {
        username: socket.username,
-       numUsers: numUsers
+       numUsers: numUsers,
+       usernames: usernames
      });
    });
 
