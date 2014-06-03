@@ -26,8 +26,9 @@
     socket.emit('add user', username);
     // Whenever the server emits 'user joined', log it in the chat body
     socket.on('user joined', function (data) {
-      $('.online-user-number').text(data.numUsers + " members");
+      $('.online-user-number').text(data.numUsers + " members" + JSON.stringify(data.usernames));
     });
+
     socket.on('user left', function(data){
       $('.online-user-number').text(data.numUsers + " members");
     });

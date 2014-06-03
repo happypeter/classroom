@@ -29,7 +29,8 @@ io.on('connection', function(socket){
 
     io.sockets.emit('user joined', {
       username: socket.username,
-      numUsers: numUsers
+      numUsers: numUsers,
+      usernames: usernames
     });
   });
 
