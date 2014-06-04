@@ -52,7 +52,11 @@ io.on('connection', function(socket){
     ++numUsers;
 
     async.parallel([
-      saveOnlineTime(username)
+      function(callback){
+        setTimeout(function(){
+          callback(null, 'one');
+        }, 200);
+      }
     ], function(){
       console.log("2111111111111111" + username);
       getLoginTime(username, function(value){
