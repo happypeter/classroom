@@ -14,16 +14,18 @@ if (redis.exists("connect_id")) {
 function saveOnlineTime(username) {
   redis.incr("connect_id", function(err, id){
      var t = new Date();
+     console.log(":.....username......." + username);
      redis.hset("connect:" + id, "online", t.getTime());
-     redis.lpush("connect_id:billie", id);
+     redis.lpush("connect_id:" + username, id);
   });
 }
 
 function saveOfflineTime(username) {
   var t = new Date();
-  redis.lpop("connect_id:billie", function(err, id){
+  console.log(":.offfff....username......." + username);
+  redis.lpop("connect_id:" + username, function(err, id){
     redis.hset("connect:" + id, "offline", t.getTime());
-    redis.lpush("connects:billie", "connect:" + id);
+    redis.lpush("connects:" + username, "connect:" + id);
   })
 }
 
@@ -47,11 +49,11 @@ io.on('connection', function(socket){
 
    socket.on('disconnect', function () {
      // remove the username from global usernames list
+     saveOfflineTime(socket.username);
      if (addedUser) {
        delete usernames[socket.username];
        --numUsers;
      }
-     saveOfflineTime(socket.username);
      // echo globally that this client has left
      socket.broadcast.emit('user left', {
        username: socket.username,
