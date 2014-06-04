@@ -15,6 +15,9 @@
 </div>
 <div class="online-user-list">
 </div>
+<div class="acticities">
+  
+</div>
 
 
 <script>
@@ -26,8 +29,16 @@
       var arr = $.map(data.usernames, function(value, key){ return value;});
       $('.online-user-list').text(data.numUsers + " members: " + arr.join(', '));
     };
+
+    function addLoginMsg(data) {
+      var t = new Date();
+      console.log(t);
+      $('.acticities').append(data.loginTime + data.username + "<br>");
+    }
+
     socket.on('user joined', function (data) {
       updateUserList(data);
+      addLoginMsg(data);
     });
 
     socket.on('user left', function(data){
