@@ -10,7 +10,6 @@ if (redis.exists("connect_id")) {
 // usernames which are currently connected to the chat
  var usernames = {};
  var numUsers = 0;
- var loginGtime;
 
 function saveOnlineTime(username) {
   redis.incr("connect_id", function(err, id){
@@ -21,14 +20,13 @@ function saveOnlineTime(username) {
   });
 }
 
-function getLoginTime(username) {
+
+function getLoginTime(username, fn){
   redis.lrange("connect_id:" + username, 0, 1, function(err, key){
       redis.hget("connect:" + key[0], 'online', function(err, value){
-      console.log("-e-----dddddddddddddd" + value);
-      loginGtime=value;
+        fn(value);
     });
   });
-  return loginGtime;
 }
 
 function saveOfflineTime(username) {
@@ -50,13 +48,15 @@ io.on('connection', function(socket){
     usernames[username] = username;
     ++numUsers;
     saveOnlineTime(username);
-    login = getLoginTime(username);
+    getLoginTime(username, function(value){
+      console.log("ddddddddddd---------ddd" + value);
+    });
 
     io.sockets.emit('user joined', {
       username: socket.username,
       numUsers: numUsers,
       usernames: usernames,
-      loginTime: login
+      loginTime: "shit"
     });
   });
 
