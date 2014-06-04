@@ -11,12 +11,12 @@ io.on('connection', function(socket){
   var addedUser = false;
 
 
-  socket.on('joiner-name', function(message) {
+  socket.on('add user', function(message) {
     console.log(message)
     redis.set("username", message);
-  redis.get("username", function(err, reply){
-    console.log(reply +"++++++++++++++");
-  })
+    redis.get("username", function(err, reply){
+      console.log(".......redis reply:" + reply);
+    })
   });
 
 
