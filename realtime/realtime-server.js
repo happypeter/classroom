@@ -7,18 +7,16 @@ var io = require('socket.io').listen(5001),
  var usernames = {};
  var numUsers = 0;
 
+function saveRedis(message) {
+  console.log(message)
+  redis.set("username", message);
+  redis.get("username", function(err, reply){
+    console.log("...function....redis reply:" + reply);
+  })
+}
+
 io.on('connection', function(socket){
   var addedUser = false;
-
-
-  socket.on('add user', function(message) {
-    console.log(message)
-    redis.set("username", message);
-    redis.get("username", function(err, reply){
-      console.log(".......redis reply:" + reply);
-    })
-  });
-
 
   socket.on('add user', function (username) {
     addedUser = true;
@@ -26,6 +24,7 @@ io.on('connection', function(socket){
     // add the client's username to the global list
     usernames[username] = username;
     ++numUsers;
+    saveRedis(username);
 
     io.sockets.emit('user joined', {
       username: socket.username,
