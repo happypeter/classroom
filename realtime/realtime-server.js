@@ -16,14 +16,17 @@ function saveOnlineTime(username) {
      var t = new Date();
      console.log(":.....username......." + username);
      redis.hset("connect:" + id, "online", t.getTime());
-     redis.lpush("connect_id:" + username, id);
+     redis.set("connect_id:" + username, id);
+     redis.get("connect_id:" + username, function(err, key){
+       console.log("saveOnlineTime******"+ key + username);
+     });
   });
 }
 
-
 function getLoginTime(username, fn){
-  redis.lrange("connect_id:" + username, 0, 1, function(err, key){
-      redis.hget("connect:" + key[0], 'online', function(err, value){
+  redis.get("connect_id:" + username, function(err, key){
+    console.log("111111111111"+ key + username);
+      redis.hget("connect:" + key, 'online', function(err, value){
         fn(value);
     });
   });
