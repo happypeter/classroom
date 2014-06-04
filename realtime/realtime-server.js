@@ -49,15 +49,14 @@ io.on('connection', function(socket){
     ++numUsers;
     saveOnlineTime(username);
     getLoginTime(username, function(value){
-      console.log("ddddddddddd---------ddd" + value);
+      io.sockets.emit('user joined', {
+        username: socket.username,
+        numUsers: numUsers,
+        usernames: usernames,
+        loginTime: value
+      });
     });
 
-    io.sockets.emit('user joined', {
-      username: socket.username,
-      numUsers: numUsers,
-      usernames: usernames,
-      loginTime: "shit"
-    });
   });
 
    socket.on('disconnect', function () {
