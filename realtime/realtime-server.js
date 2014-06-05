@@ -20,7 +20,7 @@ function getLoginTime(arrayOfUsername, cb){
 
       redis.get("connect_id:" + username, function(err, key){
         redis.hget("connect:" + key, 'online', function(err, value){
-          callback(null, value);
+          callback(null, username + ":" + value);
         });
       });
 
@@ -33,27 +33,6 @@ function getLoginTime(arrayOfUsername, cb){
     }
   );
 }
-
-
-function getOffTime(username, cb){
-
-  var asyncTasks = [];
-    asyncTasks.push(function(callback){
-
-      redis.get("connect_id:" + username, function(err, key){
-        redis.hget("connect:" + key, 'online', function(err, value){
-          callback(null, value);
-        });
-      });
-    });
-
-  async.parallel( asyncTasks,
-    function(err, results){
-      cb(results);
-    }
-  );
-}
-
 
 
 io.on('connection', function(socket){
@@ -103,30 +82,17 @@ io.on('connection', function(socket){
        --numUsers;
      }
 
-     async.series([
-        function(callback){
-          // save off time
-          var t = new Date();
-          redis.get("connect_id:" + socket.username, function(err, id){
-            redis.hset("connect:" + id, "offline", t.getTime());
-            redis.lpush("connects:" + socket.username, "connect:" + id);
-          });
-          callback(null);
-        },
+     var t = new Date();
+     redis.get("connect_id:" + socket.username, function(err, id){
+      redis.hset("connect:" + id, "offline", t.getTime());
+      redis.lpush("connects:" + socket.username, "connect:" + id);
+    });
 
-        function(callback) {
-          getOffTime(socket.username, function(value){
-            // read off time
-            io.sockets.emit('user left', {
-              username: socket.username,
-              numUsers: numUsers,
-              usernames: usernames,
-              offTime: value
-            });
-            callback(null);
-          });
-        }
-      ]);
+     io.sockets.emit('user left', {
+      username: socket.username,
+      numUsers: numUsers,
+      usernames: usernames,
+    });
 
    });
 

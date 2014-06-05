@@ -14,15 +14,14 @@
 
 </div>
 <div class="online-user-list">
-</div>
+
+</div><br>
+<h3>User login time</h3>
 <div class="acticities">
 
 </div>
-
-<h3>OFF Time</h3>
-<div class="off-time">
-</div>
-
+<h3>User Left</h3>
+<div class="user-left"></div>
 
 <script>
     var socket = io.connect("<%= Settings.socket_url %>");
@@ -31,15 +30,17 @@
     // Whenever the server emits 'user joined', log it in the chat body
     var updateUserList = function(data) {
       var arr = $.map(data.usernames, function(value, key){ return value;});
-      $('.online-user-list').text(data.numUsers + " members: " + arr.join(', '));
+      $('.online-user-list').text("Total members: " + data.numUsers);
     };
 
     function addLoginMsg(data) {
       $('.acticities').html('');
-      for(var i = 0; i < data.loginTime.length; i++) {
-        var t = new Date(parseInt(data.loginTime[i]));
+      var items = data.loginTime;
+      for(var i = 0; i < items.length; i++) {
+        var item = data.loginTime[i].split(':');
+        var t = new Date(parseInt(item[1]));
         var f = t.toLocaleString("zh-Hans-CN")
-        $('.acticities').append(f + "<br><br>");
+        $('.acticities').append("User: " + item[0] + " ---- Login time: " + f + "<br><br>");
       }
     }
 
@@ -49,7 +50,7 @@
     });
 
     socket.on('user left', function(data){
+      $('.user-left').text("User: " + data.username + " ---- has left");
       updateUserList(data);
-      $('.off-time').append(data.offTime);
     });
 </script>
