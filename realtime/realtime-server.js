@@ -1,8 +1,6 @@
-
 var io = require('socket.io').listen(5001),
     async = require('async'),
     redis = require('redis').createClient();
-
 
 if (redis.exists("connect_id")) {
   redis.del("connect_id");
@@ -22,19 +20,19 @@ function saveOnlineTime(username) {
   });
 }
 
-function getLoginTime(arrayOfUsername, fn){
+function getLoginTime(arrayOfUsername, cb){
   var lastLoginTimes = {};
   async.each(arrayOfUsername,
-    function(username, cb){
+    function(username, callback){
       redis.get("connect_id:" + username, function(err, key){
           redis.hget("connect:" + key, 'online', function(err, value){
-            lastLastTimes[username] = value
-            cb(lastLastTimes);
+            lastLoginTimes[username] = value;
+            callback(lastLoginTimes);
         });
       });
     },
-    function(err, results){
-      fn(results);
+    function(err){
+      cb(lastLoginTimes); // this callback must stay here
     }
   );
 }
@@ -44,11 +42,12 @@ function saveOfflineTime(username) {
   redis.lpop("connect_id:" + username, function(err, id){
     redis.hset("connect:" + id, "offline", t.getTime());
     redis.lpush("connects:" + username, "connect:" + id);
-  })
+  });
 }
 
 io.on('connection', function(socket){
   var addedUser = false;
+  var arrayOfUsername = [];
 
   socket.on('add user', function (username) {
     addedUser = true;
@@ -71,13 +70,14 @@ io.on('connection', function(socket){
       }
     ], function(err){
       getLoginTime(arrayOfUsername, function(value){
+        console.log("************getLoginTimevalue******", value);
         io.sockets.emit('user joined', {
           username: socket.username,
           numUsers: numUsers,
           usernames: usernames,
           loginTime: value
         });
-      })
+      });
     });
 
   });
@@ -98,5 +98,3 @@ io.on('connection', function(socket){
    });
 
 });
-
-
