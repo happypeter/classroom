@@ -35,13 +35,26 @@ function getLoginTime(arrayOfUsername, cb){
 }
 
 
-function saveOfflineTime(username) {
-  var t = new Date();
-  redis.lpop("connect_id:" + username, function(err, id){
-    redis.hset("connect:" + id, "offline", t.getTime());
-    redis.lpush("connects:" + username, "connect:" + id);
-  });
+function getOffTime(username, cb){
+
+  var asyncTasks = [];
+    asyncTasks.push(function(callback){
+
+      redis.get("connect_id:" + username, function(err, key){
+        redis.hget("connect:" + key, 'online', function(err, value){
+          callback(null, value);
+        });
+      });
+    });
+
+  async.parallel( asyncTasks,
+    function(err, results){
+      cb(results);
+    }
+  );
 }
+
+
 
 io.on('connection', function(socket){
   var addedUser = false;
@@ -85,17 +98,35 @@ io.on('connection', function(socket){
 
    socket.on('disconnect', function () {
      // remove the username from global usernames list
-     saveOfflineTime(socket.username);
      if (addedUser) {
        delete usernames[socket.username];
        --numUsers;
      }
-     // echo globally that this client has left
-     socket.broadcast.emit('user left', {
-       username: socket.username,
-       numUsers: numUsers,
-       usernames: usernames
-     });
+
+     async.series([
+        function(callback){
+          var t = new Date();
+          redis.lpop("connect_id:" + socket.username, function(err, id){
+            redis.hset("connect:" + id, "offline", t.getTime());
+            redis.lpush("connects:" + socket.username, "connect:" + id);
+          });
+          callback(null);
+        },
+
+        function(callback) {
+          getOffTime(socket.username, function(value){
+            console.log("333333333332" + value);
+            io.sockets.emit('user left', {
+              username: socket.username,
+              numUsers: numUsers,
+              usernames: usernames,
+              offTime: value
+            });
+            callback(null);
+          });
+        }
+      ]);
+
    });
 
 });

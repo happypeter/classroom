@@ -19,6 +19,10 @@
 
 </div>
 
+<h3>OFF Time</h3>
+<div class="off-time">
+</div>
+
 
 <script>
     var socket = io.connect("<%= Settings.socket_url %>");
@@ -46,5 +50,6 @@
 
     socket.on('user left', function(data){
       updateUserList(data);
+      $('.off-time').append(data.offTime);
     });
 </script>
