@@ -18,7 +18,6 @@ function saveOnlineTime(username) {
      redis.hset("connect:" + id, "online", t.getTime());
      redis.set("connect_id:" + username, id);
      redis.get("connect_id:" + username, function(err, key){
-       console.log("saveOnlineTime******"+ key + username);
      });
   });
 }
@@ -33,7 +32,6 @@ function getLoginTime(username, fn){
 
 function saveOfflineTime(username) {
   var t = new Date();
-  console.log(":.offfff....username......." + username);
   redis.lpop("connect_id:" + username, function(err, id){
     redis.hset("connect:" + id, "offline", t.getTime());
     redis.lpush("connects:" + username, "connect:" + id);
@@ -53,7 +51,6 @@ io.on('connection', function(socket){
     async.parallel([
       function(callback){
         redis.incr("connect_id", function(err, id){
-           console.log("444444444444444441");
            var t = new Date();
            redis.hset("connect:" + id, "online", t.getTime());
            redis.set("connect_id:" + username, id);
@@ -63,7 +60,6 @@ io.on('connection', function(socket){
         });
       }
     ], function(err){
-      console.log("2111111111111111");
       getLoginTime(username, function(value){
         io.sockets.emit('user joined', {
           username: socket.username,
