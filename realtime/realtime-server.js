@@ -22,12 +22,21 @@ function saveOnlineTime(username) {
   });
 }
 
-function getLoginTime(username, fn){
-  redis.get("connect_id:" + username, function(err, key){
-      redis.hget("connect:" + key, 'online', function(err, value){
-        fn(value);
-    });
-  });
+function getLoginTime(arrayOfUsername, fn){
+  var lastLoginTimes = {};
+  async.each(arrayOfUsername,
+    function(username, cb){
+      redis.get("connect_id:" + username, function(err, key){
+          redis.hget("connect:" + key, 'online', function(err, value){
+            lastLastTimes[username] = value
+            cb(lastLastTimes);
+        });
+      });
+    },
+    function(err, results){
+      fn(results);
+    }
+  );
 }
 
 function saveOfflineTime(username) {
@@ -46,6 +55,7 @@ io.on('connection', function(socket){
     socket.username = username;
     // add the client's username to the global list
     usernames[username] = username;
+    arrayOfUsername = Object.keys(usernames);
     ++numUsers;
 
     async.parallel([
@@ -60,7 +70,7 @@ io.on('connection', function(socket){
         });
       }
     ], function(err){
-      getLoginTime(username, function(value){
+      getLoginTime(arrayOfUsername, function(value){
         io.sockets.emit('user joined', {
           username: socket.username,
           numUsers: numUsers,
