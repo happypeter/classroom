@@ -34,14 +34,6 @@ function getLoginTime(arrayOfUsername, cb){
   );
 }
 
-function saveOnlineTime(username) {
-  redis.incr("connect_id", function(err, id){
-     var t = new Date();
-     redis.hset("connect:" + id, "online", t.getTime());
-     redis.set("connect_id:" + username, id);
-  });
-}
-
 
 function saveOfflineTime(username) {
   var t = new Date();
@@ -66,6 +58,7 @@ io.on('connection', function(socket){
     async.series([
       function(callback){
         redis.incr("connect_id", function(err, id){
+          // save login Time to redis
            var t = new Date();
            redis.hset("connect:" + id, "online", t.getTime());
            redis.set("connect_id:" + username, id);
