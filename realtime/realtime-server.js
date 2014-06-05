@@ -105,6 +105,7 @@ io.on('connection', function(socket){
 
      async.series([
         function(callback){
+          // save off time
           var t = new Date();
           redis.lpop("connect_id:" + socket.username, function(err, id){
             redis.hset("connect:" + id, "offline", t.getTime());
@@ -115,7 +116,7 @@ io.on('connection', function(socket){
 
         function(callback) {
           getOffTime(socket.username, function(value){
-            console.log("333333333332" + value);
+            // read off time
             io.sockets.emit('user left', {
               username: socket.username,
               numUsers: numUsers,
