@@ -31,6 +31,7 @@
     };
 
     function addLoginMsg(data) {
+      $('.acticities').html('');
       for(var i = 0; i < data.loginTime.length; i++) {
         var t = new Date(parseInt(data.loginTime[i]));
         var f = t.toLocaleString("zh-Hans-CN")
