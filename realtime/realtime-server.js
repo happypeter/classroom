@@ -28,15 +28,13 @@ function getLoginTime(arrayOfUsername, cb){
     function(username, callback){
       redis.get("connect_id:" + username, function(err, key){
           redis.hget("connect:" + key, 'online', function(err, value){
-            lastLoginTimes[username] = value;
-            console.log("************lastLoginTimes******", lastLoginTimes);
-            callback(lastLoginTimes);
+          console.log("------------" + username);
+          callback();
         });
       });
     },
-    function(err, lastLoginTimes){
-      console.log("************lastLoginTimesalldone******", lastLoginTimes);
-      cb(lastLoginTimes); // this callback must stay here
+    function(err){
+      console.log("************lastLoginTimesalldone******");
     }
   );
 }
