@@ -10,15 +10,6 @@ if (redis.exists("connect_id")) {
  var usernames = {};
  var numUsers = 0;
 
-function saveOnlineTime(username) {
-  redis.incr("connect_id", function(err, id){
-     var t = new Date();
-     redis.hset("connect:" + id, "online", t.getTime());
-     redis.set("connect_id:" + username, id);
-     redis.get("connect_id:" + username, function(err, key){
-     });
-  });
-}
 
 function getLoginTime(arrayOfUsername, cb){
 
@@ -36,13 +27,21 @@ function getLoginTime(arrayOfUsername, cb){
     });
   });
 
-
   async.parallel( asyncTasks,
     function(err, results){
       cb(results);
     }
   );
 }
+
+function saveOnlineTime(username) {
+  redis.incr("connect_id", function(err, id){
+     var t = new Date();
+     redis.hset("connect:" + id, "online", t.getTime());
+     redis.set("connect_id:" + username, id);
+  });
+}
+
 
 function saveOfflineTime(username) {
   var t = new Date();
@@ -64,27 +63,30 @@ io.on('connection', function(socket){
     arrayOfUsername = Object.keys(usernames);
     ++numUsers;
 
-    async.parallel([
+    async.series([
       function(callback){
         redis.incr("connect_id", function(err, id){
            var t = new Date();
            redis.hset("connect:" + id, "online", t.getTime());
            redis.set("connect_id:" + username, id);
-           callback();
+           callback(null);
            // if I put callback() out of incr() this won't work
            // so callback() is really the end point of the execution
         });
-      }
-    ], function(err){
-      getLoginTime(arrayOfUsername, function(value){
-        io.sockets.emit('user joined', {
-          username: socket.username,
-          numUsers: numUsers,
-          usernames: usernames,
-          loginTime: value
+      },
+
+      function(callback) {
+        getLoginTime(arrayOfUsername, function(value){
+          io.sockets.emit('user joined', {
+            username: socket.username,
+            numUsers: numUsers,
+            usernames: usernames,
+            loginTime: value
+          });
+          callback(null);
         });
-      });
-    });
+      }
+    ]);
 
   });
 
