@@ -24,19 +24,30 @@ function getLoginTime(arrayOfUsername, cb){
   var lastLoginTimes = {};
   console.log("************arrayOfUsername******", arrayOfUsername);
 
-  async.each(arrayOfUsername,
-    function(username, callback){
-      redis.get("connect_id:" + username, function(err, key){
-          redis.hget("connect:" + key, 'online', function(err, value){
-          console.log("------------" + username);
-          callback();
-        });
-      });
+  async.parallel([
+    //http://justinklemm.com/node-js-async-tutorial/
+    // I can get the effect of .each() here and I can use callback(null, xxxx) to
+    // get return value
+    function(callback){
+        setTimeout(function(){
+            callback(null, 'one');
+        }, 200);
     },
-    function(err){
-      console.log("************lastLoginTimesalldone******");
+    function(callback){
+        setTimeout(function(){
+            callback(null, 'two');
+        }, 100);
+    }
+
+    ],
+    function(err, results){
+      console.log("************lastLoginTimesalldone******"+ results);
+      cb(results);
     }
   );
+
+
+
 }
 
 function saveOfflineTime(username) {
