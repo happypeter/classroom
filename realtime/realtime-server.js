@@ -22,16 +22,20 @@ function saveOnlineTime(username) {
 
 function getLoginTime(arrayOfUsername, cb){
   var lastLoginTimes = {};
+  console.log("************arrayOfUsername******", arrayOfUsername);
+
   async.each(arrayOfUsername,
     function(username, callback){
       redis.get("connect_id:" + username, function(err, key){
           redis.hget("connect:" + key, 'online', function(err, value){
             lastLoginTimes[username] = value;
+            console.log("************lastLoginTimes******", lastLoginTimes);
             callback(lastLoginTimes);
         });
       });
     },
-    function(err){
+    function(err, lastLoginTimes){
+      console.log("************lastLoginTimesalldone******", lastLoginTimes);
       cb(lastLoginTimes); // this callback must stay here
     }
   );
