@@ -39,7 +39,6 @@ function getLoginTime(arrayOfUsername, cb){
 
   async.parallel( asyncTasks,
     function(err, results){
-      console.log("************lastLoginTimesalldone******"+ results);
       cb(results);
     }
   );
@@ -78,7 +77,6 @@ io.on('connection', function(socket){
       }
     ], function(err){
       getLoginTime(arrayOfUsername, function(value){
-        console.log("************getLoginTimevalue******", value);
         io.sockets.emit('user joined', {
           username: socket.username,
           numUsers: numUsers,
