@@ -20,23 +20,24 @@ function saveOnlineTime(username) {
   });
 }
 
-function getLoginTime(arrayOfUsername, cb){
-  var lastLoginTimes = {};
-  console.log("************arrayOfUsername******", arrayOfUsername);
+function getLoginTime(username, cb){
+
+
 
   async.parallel([
     //http://justinklemm.com/node-js-async-tutorial/
     // I can get the effect of .each() here and I can use callback(null, xxxx) to
     // get return value
     function(callback){
-        setTimeout(function(){
-            callback(null, 'one');
-        }, 200);
+      redis.get("connect_id:" + username, function(err, key){
+        redis.hget("connect:" + key, 'online', function(err, value){
+          callback(null, value);
+        });
+      });
+
     },
     function(callback){
-        setTimeout(function(){
-            callback(null, 'two');
-        }, 100);
+       callback(null, 'four');
     }
 
     ],
@@ -45,9 +46,6 @@ function getLoginTime(arrayOfUsername, cb){
       cb(results);
     }
   );
-
-
-
 }
 
 function saveOfflineTime(username) {
@@ -82,7 +80,7 @@ io.on('connection', function(socket){
         });
       }
     ], function(err){
-      getLoginTime(arrayOfUsername, function(value){
+      getLoginTime(username, function(value){
         console.log("************getLoginTimevalue******", value);
         io.sockets.emit('user joined', {
           username: socket.username,
