@@ -16,7 +16,7 @@
 <div class="online-user-list">
 </div>
 <div class="acticities">
-  
+
 </div>
 
 
@@ -31,9 +31,11 @@
     };
 
     function addLoginMsg(data) {
-      var t = new Date();
-      console.log(t);
-      $('.acticities').append(data.loginTime + data.username + "<br>");
+      for(var i = 0; i < data.loginTime.length; i++) {
+        var t = new Date(parseInt(data.loginTime[i]));
+        var f = t.toLocaleString("zh-Hans-CN")
+        $('.acticities').append(f + "<br><br>");
+      }
     }
 
     socket.on('user joined', function (data) {
