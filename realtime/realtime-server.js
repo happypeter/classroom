@@ -25,7 +25,6 @@ function saveOnlineTime(username) {
 
 function getLoginTime(username, fn){
   redis.get("connect_id:" + username, function(err, key){
-    console.log(">>>>>>>>>getLoginTime>>>>>>>"+ key + username);
       redis.hget("connect:" + key, 'online', function(err, value){
         fn(value);
     });
@@ -53,12 +52,16 @@ io.on('connection', function(socket){
 
     async.parallel([
       function(callback){
-        setTimeout(function(){
-          callback(null, 'one');
-        }, 200);
+        redis.incr("connect_id", function(err, id){
+           console.log("444444444444444441");
+           var t = new Date();
+           redis.hset("connect:" + id, "online", t.getTime());
+           redis.set("connect_id:" + username, id);
+           callback();
+        });
       }
-    ], function(){
-      console.log("2111111111111111" + username);
+    ], function(err){
+      console.log("2111111111111111");
       getLoginTime(username, function(value){
         io.sockets.emit('user joined', {
           username: socket.username,
