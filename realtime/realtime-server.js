@@ -58,6 +58,8 @@ io.on('connection', function(socket){
            redis.hset("connect:" + id, "online", t.getTime());
            redis.set("connect_id:" + username, id);
            callback();
+           // if I put callback() out of incr() this won't work
+           // so callback() is really the end point of the execution
         });
       }
     ], function(err){
