@@ -107,7 +107,7 @@ io.on('connection', function(socket){
         function(callback){
           // save off time
           var t = new Date();
-          redis.lpop("connect_id:" + socket.username, function(err, id){
+          redis.get("connect_id:" + socket.username, function(err, id){
             redis.hset("connect:" + id, "offline", t.getTime());
             redis.lpush("connects:" + socket.username, "connect:" + id);
           });
