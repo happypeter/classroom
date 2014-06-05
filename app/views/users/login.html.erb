@@ -1,8 +1,10 @@
-</ul>
-<%= form_tag "/classroom", :method => "get" do %>
-        <dl class="form">
-          <dt><%= label_tag "Type your name" %></dt>
-          <dd><%= text_field_tag :name, params[:name] %></dd>
-        </dl>
-        <p> <%= submit_tag "Join Classroom" %> </p>
-<% end %>
+<div class="container">
+  <div class="login page">
+    <%= form_tag "/classroom", :method => "get" do %>
+    <dl class="form">
+      <dt><%= label_tag "Type your name" %></dt>
+      <dd><%= text_field_tag :name, params[:name], class: "username" %></dd>
+    </dl>
+    <% end %>
+  </div>
+</div>

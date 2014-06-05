@@ -1,0 +1,40 @@
+.container {
+  width: 960px;
+  margin: 50px auto;
+}
+.page {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+.login.page {
+  background-color: #000;
+  width: 960px;
+  height: 500px;
+  label, .username {
+    color: #fff;
+    font-weight: 100;
+    font-size: 200%;
+  }
+  label {
+    display: block;
+    margin: 30px;
+  }
+  .form {
+    height: 100px;
+    margin-top: -100px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100%;
+  }
+  .username {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #fff;
+    outline: none;
+    padding-bottom: 15px;
+    text-align: center;
+    width: 400px;
+  }
+}

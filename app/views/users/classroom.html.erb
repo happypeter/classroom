@@ -1,27 +1,28 @@
-<h1>Classroom</h1>
-<h3> You are </h3>
-<div class="username">
- <% if @username %>
-   <%= @username %>
- <% else %>
-    <%= link_to "login first", "/" %>
- <% end %>
+<div class="container">
+  <h1>Classroom</h1>
+  <h3> You are </h3>
+  <div class="username">
+   <% if @username %>
+     <%= @username %>
+   <% else %>
+      <%= link_to "login first", "/" %>
+   <% end %>
+  </div>
+
+  <h3> Online </h3>
+  <div class="online-user">
+
+  </div>
+  <div class="online-user-list">
+
+  </div><br>
+  <h3>Users joined</h3>
+  <ul class="participants">
+
+  </ul>
+  <h3>User Left</h3>
+  <div class="user-left"></div>
 </div>
-
-
-<h3> Online </h3>
-<div class="online-user">
-
-</div>
-<div class="online-user-list">
-
-</div><br>
-<h3>Users joined</h3>
-<ul class="participants">
-
-</ul>
-<h3>User Left</h3>
-<div class="user-left"></div>
 
 <script>
     var socket = io.connect("<%= Settings.socket_url %>");
