@@ -16,10 +16,10 @@
 <div class="online-user-list">
 
 </div><br>
-<h3>User login time</h3>
-<div class="acticities">
+<h3>Users joined</h3>
+<ul class="participants">
 
-</div>
+</ul>
 <h3>User Left</h3>
 <div class="user-left"></div>
 
@@ -34,13 +34,13 @@
     };
 
     function addLoginMsg(data) {
-      $('.acticities').html('');
+      $('.participants').html('');
       var items = data.loginTime;
       for(var i = 0; i < items.length; i++) {
         var item = data.loginTime[i].split(':');
         var t = new Date(parseInt(item[1]));
         var f = t.toLocaleString("zh-Hans-CN")
-        $('.acticities').append("User: " + item[0] + " ---- Login time: " + f + "<br><br>");
+        $('.participants').append('<li class="' + item[0] + '">' + item[0] + " ---- joined time: " + f + "<br><br>");
       }
     }
 
@@ -50,7 +50,8 @@
     });
 
     socket.on('user left', function(data){
-      $('.user-left').text("User: " + data.username + " ---- has left");
+      $('.user-left').text(data.username + " --- left");
+      $(".participants ." + data.username).remove();
       updateUserList(data);
     });
 </script>
