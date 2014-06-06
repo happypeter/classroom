@@ -1,0 +1,35 @@
+<div class="container">
+  <ul>
+    <% @users.each do |u| %>
+    <li>
+      <p><%= u %> connects:</p>
+      <ul>
+        <% total = 0 %>
+      <% $redis.lrange("connects:#{u}", 0 , -1 ).uniq.each do |c| %>
+        <li>
+          <% online = $redis.hget(c, "online").to_i %>
+          <% offline = $redis.hget(c, "offline").to_i %>
+          online time: <span class='connect-time' data-time="<%= online %>"></span>
+          <%= ' - '*10 %>
+          offline time: <span class='connect-time' data-time="<%= offline %>"></span>
+          <%= ' - '*10 %>
+          <% interval = ((offline - online) / 1000.0).round %>
+          interval: <%= interval %> seconds
+          <% total += interval %>
+        </li>
+      <% end %>
+      </ul>
+      <p>total time: <%= total %> seconds</p>
+    </li>
+    <% end %>
+  </ul>
+</div>
+
+<script>
+  $(".connect-time").each(function(){
+    var time = $(this).data("time");
+    var t = new Date(parseInt(time));
+    var f = t.toLocaleString("zh-Hans-CN").split('年')[1];
+    $(this).html(f);
+  });
+</script>

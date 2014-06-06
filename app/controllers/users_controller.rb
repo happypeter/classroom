@@ -11,4 +11,8 @@ class UsersController < ApplicationController
       redirect_to :root
     end
   end
+
+  def data
+    @users = $redis.lrange("users", 0, -1).uniq
+  end
 end
