@@ -3,7 +3,7 @@
     <%= form_tag "/classroom", :method => "get" do %>
     <dl class="form">
       <dt><%= label_tag "Type your name" %></dt>
-      <dd><%= text_field_tag :name, params[:name], class: "username" %></dd>
+      <dd><%= text_field_tag :name, params[:name], class: "username", autofocus: true, autocomplete: "off" %></dd>
     </dl>
     <% end %>
   </div>
