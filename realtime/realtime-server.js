@@ -2,10 +2,6 @@ var io = require('socket.io').listen(5001),
     async = require('async'),
     redis = require('redis').createClient();
 
-if (redis.exists("connect_id")) {
-  redis.del("connect_id");
-}
-
 // usernames which are currently connected to the chat
  var usernames = {};
  var numUsers = 0;
@@ -44,6 +40,10 @@ io.on('connection', function(socket){
     socket.username = username;
     // add the client's username to the global list
     usernames[username] = username;
+
+    // store username to redis
+    redis.lpush("users", username);
+
     arrayOfUsername = Object.keys(usernames);
     ++numUsers;
 
