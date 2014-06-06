@@ -1,27 +1,15 @@
 <div class="container">
-  <h1>Classroom</h1>
-  <h3> You are </h3>
-  <div class="username">
-   <% if @username %>
-     <%= @username %>
-   <% else %>
-      <%= link_to "login first", "/" %>
-   <% end %>
+  <div class="classroom">
+    <h1 class="title">welcome
+      <span class="username">
+       <% if @username %>
+         <%= @username %>
+       <% end %>
+      </span>
+    </h1><br>
+
+    <ul class="participants"></ul>
   </div>
-
-  <h3> Online </h3>
-  <div class="online-user">
-
-  </div>
-  <div class="online-user-list">
-
-  </div><br>
-  <h3>Users joined</h3>
-  <ul class="participants">
-
-  </ul>
-  <h3>User Left</h3>
-  <div class="user-left"></div>
 </div>
 
 <script>
@@ -29,10 +17,6 @@
     var username = $.trim($('.username')[0].innerHTML);
     socket.emit('add user', username);
     // Whenever the server emits 'user joined', log it in the chat body
-    var updateUserList = function(data) {
-      var arr = $.map(data.usernames, function(value, key){ return value;});
-      $('.online-user-list').text("Total members: " + data.numUsers);
-    };
 
     function addLoginMsg(data) {
       $('.participants').html('');
@@ -40,19 +24,19 @@
       for(var i = 0; i < items.length; i++) {
         var item = data.loginTime[i].split(':');
         var t = new Date(parseInt(item[1]));
-        var f = t.toLocaleString("zh-Hans-CN")
-        $('.participants').append('<li class="' + item[0] + '">' + item[0] + " ---- joined time: " + f + "<br><br>");
+        var f = t.toLocaleString("zh-Hans-CN").split(' ')[1];
+        var text = '<span class="name-color">' + item[0] + '</span>';
+        var log = '<span class="log">' + ' joined at ' + f + '</span>';
+        $('.participants').append('<li class="' + item[0] + '">' + text + log + "</li>");
       }
     }
 
     socket.on('user joined', function (data) {
-      updateUserList(data);
       addLoginMsg(data);
     });
 
     socket.on('user left', function(data){
-      $('.user-left').text(data.username + " --- left");
-      $(".participants ." + data.username).remove();
-      updateUserList(data);
+      $(".participants ." + data.username + " .name-color").css("color", "gray");
+      setTimeout(function(){$(".participants ." + data.username).fadeOut(3000)}, 2000);
     });
 </script>

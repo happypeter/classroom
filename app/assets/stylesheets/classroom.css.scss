@@ -38,3 +38,27 @@
     width: 400px;
   }
 }
+
+.classroom {
+  .title {
+    font-size: 200%;
+    color: gray;
+    font-weight: normal
+  }
+  .log {
+    color: gray;
+    font-size: 70%;
+  }
+  .participants {
+    list-style-type: none;
+    font-size: 150%;
+    color: gray;
+    li {
+      margin-bottom: 30px;
+    }
+  }
+  .name-color {
+    color: #58dc00;
+    padding-right: 30px;
+  }
+}

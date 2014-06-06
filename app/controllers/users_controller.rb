@@ -4,7 +4,11 @@ class UsersController < ApplicationController
   end
 
   def classroom
-    @username = params[:name]
-    @saved = $redis.get('username')
+    if params[:name].present?
+      @username = params[:name]
+      @saved = $redis.get('username')
+    else
+      redirect_to :root
+    end
   end
 end
