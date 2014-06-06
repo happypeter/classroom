@@ -16,6 +16,22 @@
     font-weight: 100;
     font-size: 200%;
   }
+  .data {
+    float: right;
+    width: 100px;
+    text-align: center;
+    padding: 20px;
+    a {
+      color: #fff;
+      display: block;
+      border: 1px solid white;
+      padding: 10px;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
   label {
     display: block;
     margin: 30px;
