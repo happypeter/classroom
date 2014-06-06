@@ -54,6 +54,7 @@ io.on('connection', function(socket){
            var t = new Date();
            redis.hset("connect:" + id, "online", t.getTime());
            redis.set("connect_id:" + username, id);
+           redis.lpush("connects:" + username, "connect:" + id);
            callback(null);
            // if I put callback() out of incr() this won't work
            // so callback() is really the end point of the execution
@@ -85,7 +86,6 @@ io.on('connection', function(socket){
      var t = new Date();
      redis.get("connect_id:" + socket.username, function(err, id){
       redis.hset("connect:" + id, "offline", t.getTime());
-      redis.lpush("connects:" + socket.username, "connect:" + id);
     });
 
      io.sockets.emit('user left', {
