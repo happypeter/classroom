@@ -6,9 +6,14 @@
          <%= @username %>
        <% end %>
       </span>
-    </h1><br>
-
+    </h1>
     <ul class="participants"></ul>
+  </div>
+  <div class="chatroom">
+    <ul class="messages"></ul>
+    <form action="">
+      <input class="msg" autocomplete="off" /><button>Send</button>
+    </form>
   </div>
 </div>
 
@@ -30,6 +35,20 @@
         $('.participants').append('<li class="' + item[0] + '">' + text + log + "</li>");
       }
     }
+
+    $('form').submit(function(){
+      var message = $('.msg').val()
+      socket.emit('new message', message);
+      $('.messages').append($('<li>').text(username + ': ' + message));
+      $('.msg').val('');
+      return false;
+    });
+
+    // socket events
+
+    socket.on('new message', function(data){
+      $('.messages').append($('<li>').text(data.username + ': ' + data.message));
+    });
 
     socket.on('user joined', function (data) {
       addLoginMsg(data);

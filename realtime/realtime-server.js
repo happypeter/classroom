@@ -76,24 +76,30 @@ io.on('connection', function(socket){
 
   });
 
-   socket.on('disconnect', function () {
-     // remove the username from global usernames list
-     if (addedUser) {
-       delete usernames[socket.username];
-       --numUsers;
-     }
+  socket.on('new message', function(data){
+    socket.broadcast.emit('new message', {
+      username: socket.username,
+      message: data
+    });
+  });
 
-     var t = new Date();
-     redis.get("connect_id:" + socket.username, function(err, id){
-      redis.hset("connect:" + id, "offline", t.getTime());
+  socket.on('disconnect', function () {
+   // remove the username from global usernames list
+    if (addedUser) {
+      delete usernames[socket.username];
+      --numUsers;
+    }
+
+    var t = new Date();
+    redis.get("connect_id:" + socket.username, function(err, id){
+    redis.hset("connect:" + id, "offline", t.getTime());
     });
 
-     io.sockets.emit('user left', {
+    io.sockets.emit('user left', {
       username: socket.username,
       numUsers: numUsers,
       usernames: usernames,
     });
-
-   });
+  });
 
 });
