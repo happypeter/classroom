@@ -70,7 +70,7 @@ body {
     font-weight: normal;
     margin-bottom: 30px;
   }
-  .log {
+  .date {
     color: gray;
     font-size: 70%;
   }
@@ -82,8 +82,7 @@ body {
       margin-bottom: 30px;
     }
   }
-  .name-color {
-    color: #58dc00;
+  .username {
     padding-right: 30px;
   }
 }
@@ -113,14 +112,18 @@ body {
     border: none;
     padding: 10px;
   }
-  .messages { list-style-type: none;
+  .messages {
+    list-style-type: none;
     margin: 0;
     padding: 0;
-  }
-  .messages li {
-    padding: 5px 10px;
-  }
-  .messages li:nth-child(odd) {
-    background: #eee;
+    li {
+      padding: 5px 10px;
+    }
+    .username {
+      padding-right: 30px;
+    }
+    li:nth-child(odd) {
+      background: #eee;
+    }
   }
 }
