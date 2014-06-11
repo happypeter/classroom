@@ -6,8 +6,8 @@ var COLORS = [
 
 var socket = io.connect("<%= Settings.socket_url %>");
 var username = $.trim($('.username')[0].innerHTML);
-socket.emit('add user', username);
 
+socket.emit('add user', username);
 
 // Gets the color of a username through our hash function
 function getUsernameColor (username) {
