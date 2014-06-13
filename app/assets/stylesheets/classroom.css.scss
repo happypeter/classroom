@@ -93,6 +93,10 @@ body {
   position: relative;
   height: 400px;
   width: 400px;
+  .chat-area {
+    height: 100%;
+    padding-bottom: 36px;
+  }
   form {
     background: #000;
     padding: 3px;
@@ -103,6 +107,7 @@ body {
   form input {
     border: 0;
     padding: 10px;
+    height: 36px;
     width: 83%;
     margin-right: .5%;
   }
@@ -114,6 +119,8 @@ body {
   }
   .messages {
     list-style-type: none;
+    overflow-y: scroll;
+    height: 100%;
     margin: 0;
     padding: 0;
     li {

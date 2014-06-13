@@ -4,6 +4,8 @@ var COLORS = [
   '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
 ];
 
+var $messages = $('.messages'); // Messages area
+
 var socket = io.connect("<%= Settings.socket_url %>");
 var username = $.trim($('.username')[0].innerHTML);
 
@@ -53,6 +55,7 @@ function addChatMessage (data) {
                       .append($usernameDiv, $messageBodyDiv);
 
   $('.messages').append($messageDiv);
+  $messages[0].scrollTop = $messages[0].scrollHeight;
 }
 
 // Prevents input from having injected markup

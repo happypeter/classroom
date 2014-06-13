@@ -1,6 +1,7 @@
 <div class="container">
   <div class="classroom">
-    <h1 class="title">welcome
+    <h1 class="title">
+      welcome
       <span class="username">
         <%= @username %>
       </span>
@@ -8,10 +9,12 @@
     <ul class="participants"></ul>
   </div>
   <div class="chatroom">
-    <ul class="messages"></ul>
-    <form action="">
-      <input class="msg" autocomplete="off" /><button>Send</button>
-    </form>
+    <div class="chat-area">
+      <ul class="messages"></ul>
+      <form action="">
+        <input class="msg" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
   </div>
 </div>
 
