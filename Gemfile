@@ -21,6 +21,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'momentjs-rails', '~> 2.6.0'
 gem 'jquery-rails'
 gem 'settingslogic'
 

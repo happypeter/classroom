@@ -28,13 +28,13 @@ function addLoginMsg(data) {
   for(var i = 0; i < items.length; i++) {
     var item = data.loginTime[i].split(':');
 
-    var t = new Date(parseInt(item[1], 10));
-    var f = t.toLocaleString("zh-Hans-CN").split(' ')[1];
+    moment.lang("zh-cn");
+    var time = moment(parseInt(item[1], 10)).format("MMMD日 Ah:mm");
 
     var $username = $('<span class="username">').text(item[0])
                      .css('color', getUsernameColor(item[0]));
 
-    var $date = $('<span class="date">').text(" joined at " + f);
+    var $date = $('<span class="date">').text(" joined at " + time);
 
     var $participant = $('<li>').addClass(item[0]).append($username, $date);
 

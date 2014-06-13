@@ -50,6 +50,8 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
+    momentjs-rails (2.6.0)
+      railties (>= 3.1)
     multi_json (1.10.1)
     mysql2 (0.3.16)
     polyglot (0.3.4)
@@ -106,6 +108,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
   jquery-rails
+  momentjs-rails (~> 2.6.0)
   mysql2
   rails (= 3.2.13)
   redis

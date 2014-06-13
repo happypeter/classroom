@@ -10,9 +10,9 @@
               <li>
                 <% online = $redis.hget(c, "online").to_i %>
                 <% offline = $redis.hget(c, "offline").to_i %>
-                online time: <span class='connect-time' data-time="<%= online %>"></span>
+                online time: <span class='connect-time momentjs-time' data-time="<%= online %>"></span>
                 <%= ' - '*10 %>
-                offline time: <span class='connect-time' data-time="<%= offline %>"></span>
+                offline time: <span class='connect-time momentjs-time' data-time="<%= offline %>"></span>
                 <% if offline != 0 %>
                   <%= ' - '*10 %>
                   <% interval = ((offline - online) / 1000.0).round %>
@@ -32,14 +32,15 @@
 </div>
 
 <script>
-$(".connect-time").each(function(){
-  var time = $(this).data("time");
-  if(time == 0) {
+$(".momentjs-time").each(function(){
+  var time;
+  var start = $(this).data("time");
+  if(start == 0) {
     $(this).html("still online");
   }else {
-    var t = new Date(parseInt(time));
-    var f = t.toLocaleString("zh-Hans-CN").split('年')[1];
-    $(this).html(f);
+    moment.lang("zh-cn");
+    time = moment(start).format("MMMD日 Ah:mm");
+    $(this).html(time);
   }
 });
 </script>

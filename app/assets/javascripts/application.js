@@ -13,3 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require socket.io
+//= require moment
+//= require moment/zh-cn.js
