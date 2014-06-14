@@ -49,7 +49,7 @@ function addChatMessage (data) {
   var $usernameDiv = $('<span class="username">').text(data.username)
                        .css('color', getUsernameColor(data.username));
 
-  var $messageBodyDiv = $('<span class="messageBody">').text(data.message);
+  var $messageBodyDiv = $('<span class="messagebody">').text(data.message);
 
   var $messageDiv = $('<li class="message">').data('username', data.username)
                       .append($usernameDiv, $messageBodyDiv);
