@@ -1,5 +1,7 @@
 defaults: &defaults
-  socket_url: http://classroom.happycasts.net:5001
+  socket_url: http://localhost:5001
+  # you can also use '127.0.0.1:5001' but not 'localhost:5001'
+  # socket_url: http://classroom.happycasts.net:5001
   awesome_setting: <%= "Did you know 5 + 5 = #{5 + 5}?" %>
 
 development:
