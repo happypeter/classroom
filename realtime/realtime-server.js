@@ -41,6 +41,9 @@ io.on('connection', function(socket){
     // add the client's username to the global list
     usernames[username] = username;
 
+    // connect to redis database 0, default database
+    //redis.select("0")
+
     // store username to redis
     redis.lpush("users", username);
 
